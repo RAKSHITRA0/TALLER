@@ -3,13 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Stature — Profile</title>
-
+<title>Profile</title>
 <style>
-body{margin:0;background:#0f1115;color:#fff;font-family:system-ui;padding:20px;}
-label{opacity:.7;font-size:.9rem;margin-top:16px;display:block;}
-input{width:100%;padding:12px;background:#1a1d23;border:none;border-radius:10px;color:#fff;margin-top:6px;}
-button{margin-top:28px;width:100%;padding:14px;border:none;border-radius:12px;background:#6cff8d;color:#0f1115;font-weight:600;}
+body{margin:0;background:#0f1115;color:#fff;font-family:system-ui;padding:20px}
+label{opacity:.7;margin-top:16px;display:block}
+input{width:100%;padding:12px;background:#1a1d23;border:none;border-radius:10px;color:#fff;margin-top:6px}
+button{margin-top:28px;width:100%;padding:14px;border:none;border-radius:12px;background:#6cff8d;color:#0f1115;font-weight:600}
 </style>
 </head>
 <body>
@@ -28,18 +27,19 @@ button{margin-top:28px;width:100%;padding:14px;border:none;border-radius:12px;ba
 <label>Mother's Height (cm)</label>
 <input id="mother" type="number">
 
-<button onclick="save()">Next</button>
+<button onclick="next()">Next</button>
 
 <script>
-function save(){
-  localStorage.setItem("profile", JSON.stringify({
-    age:+age.value,
-    height:+height.value,
-    father:+father.value,
-    mother:+mother.value
-  }));
-  location.href="body-metrics.html";
+function next(){
+localStorage.profile=JSON.stringify({
+age:+age.value,
+height:+height.value,
+father:+father.value,
+mother:+mother.value
+});
+location.href="body-metrics.html";
 }
 </script>
+
 </body>
 </html>
