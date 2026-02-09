@@ -3,53 +3,68 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Stature — Dashboard</title>
-
+<title>Stature Dashboard</title>
 <style>
-body{margin:0;background:#0f1115;color:#fff;font-family:system-ui;padding:20px;}
-.card{background:#1a1d23;padding:16px;border-radius:14px;margin-top:16px;}
-.label{opacity:.7;font-size:.85rem;}
-.value{font-size:1.4rem;margin-top:4px;}
-a{display:block;margin-top:24px;text-align:center;color:#6cff8d;text-decoration:none;}
+body{margin:0;background:#0f1115;color:#fff;font-family:system-ui;padding:20px}
+.card{background:#1a1d23;padding:16px;border-radius:14px;margin-top:16px}
+.label{opacity:.7;font-size:.85rem}
+.value{font-size:1.4rem;margin-top:4px}
 </style>
 </head>
 <body>
 
-<h2>Growth Dashboard</h2>
+<h2>Projected Growth</h2>
 
 <div class="card">
-  <div class="label">Current Height</div>
-  <div class="value" id="height"></div>
+<div class="label">Projected Adult Height</div>
+<div class="value" id="projection"></div>
 </div>
 
 <div class="card">
-  <div class="label">Estimated Genetic Midpoint</div>
-  <div class="value" id="genetic"></div>
+<div class="label">Growth Phase</div>
+<div class="value" id="phase"></div>
 </div>
-
-<div class="card">
-  <div class="label">Growth Phase</div>
-  <div class="value" id="phase"></div>
-</div>
-
-<div class="card">
-  <div class="label">Proportion Indicator</div>
-  <div class="value" id="ratio"></div>
-</div>
-
-<a href="insights.html">View Monthly Insights →</a>
 
 <script>
-const p = JSON.parse(localStorage.profile);
-const m = JSON.parse(localStorage.metrics);
+const p=JSON.parse(localStorage.profile);
+const m=JSON.parse(localStorage.metrics);
+const h=JSON.parse(localStorage.habits);
 
-const midpoint = (p.father + p.mother + 13) / 2;
-const legRatio = ((p.height - m.sitting) / p.height) * 100;
+// Genetic baseline
+const GB=(p.father+p.mother+13)/2;
 
-height.innerText = p.height + " cm";
-genetic.innerText = midpoint.toFixed(1) + " cm";
-phase.innerText = p.age < 16 ? "Active Growth Phase" : "Late Growth Phase";
-ratio.innerText = legRatio.toFixed(1) + "% leg proportion";
+// Growth phase multiplier
+let GPM=0.05;
+if(p.age<=14)GPM=1;
+else if(p.age<=16)GPM=.75;
+else if(p.age<=18)GPM=.4;
+else if(p.age<=21)GPM=.15;
+
+// Proportion indicator
+const legRatio=(p.height-m.sitting)/p.height;
+const PI=(legRatio-0.52)*20;
+
+// Wingspan modifier
+const WS_Mod=Math.max(-2,Math.min(2,(m.wingspan-p.height)*0.3));
+
+// Lifestyle
+const sleepScore=Math.min(h.sleep/8,1);
+const activityScore=h.activity=="High"?1:h.activity=="Moderate"?.7:.4;
+const stressPenalty=h.stress=="High"?-1:h.stress=="Moderate"?-.5:0;
+const LM=Math.max(-1,Math.min(1,(sleepScore+activityScore)/2+stressPenalty));
+const lifestyleEffect=LM*2;
+
+// Remaining growth
+const RGE=(GB-p.height)*GPM;
+
+// Final projection
+const finalHeight=p.height+RGE+PI+WS_Mod+lifestyleEffect;
+
+projection.innerText=
+`${finalHeight.toFixed(1)} cm ± 2.5 cm`;
+
+phase.innerText=p.age<16?"Active Growth Phase":"Late Growth Phase";
 </script>
+
 </body>
 </html>
