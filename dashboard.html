@@ -1,75 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stature — Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stature — Dashboard</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: system-ui, sans-serif;
-      background: #0f1115;
-      color: #ffffff;
-      padding: 20px;
-    }
-
-    h2 {
-      margin-bottom: 10px;
-    }
-
-    .card {
-      background: #1a1d23;
-      border-radius: 14px;
-      padding: 16px;
-      margin-top: 16px;
-    }
-
-    .label {
-      opacity: 0.7;
-      font-size: 0.85rem;
-    }
-
-    .value {
-      font-size: 1.4rem;
-      margin-top: 4px;
-    }
-  </style>
+<style>
+body{margin:0;background:#0f1115;color:#fff;font-family:system-ui;padding:20px;}
+.card{background:#1a1d23;padding:16px;border-radius:14px;margin-top:16px;}
+.label{opacity:.7;font-size:.85rem;}
+.value{font-size:1.4rem;margin-top:4px;}
+a{display:block;margin-top:24px;text-align:center;color:#6cff8d;text-decoration:none;}
+</style>
 </head>
 <body>
 
-  <h2>Your Growth Snapshot</h2>
+<h2>Growth Dashboard</h2>
 
-  <div class="card">
-    <div class="label">Current Height</div>
-    <div class="value" id="height"></div>
-  </div>
+<div class="card">
+  <div class="label">Current Height</div>
+  <div class="value" id="height"></div>
+</div>
 
-  <div class="card">
-    <div class="label">Estimated Genetic Midpoint</div>
-    <div class="value" id="genetic"></div>
-  </div>
+<div class="card">
+  <div class="label">Estimated Genetic Midpoint</div>
+  <div class="value" id="genetic"></div>
+</div>
 
-  <div class="card">
-    <div class="label">Growth Phase</div>
-    <div class="value" id="phase"></div>
-  </div>
+<div class="card">
+  <div class="label">Growth Phase</div>
+  <div class="value" id="phase"></div>
+</div>
 
-  <script>
-    const data = JSON.parse(localStorage.getItem("statureProfile"));
+<div class="card">
+  <div class="label">Proportion Indicator</div>
+  <div class="value" id="ratio"></div>
+</div>
 
-    const geneticMid =
-      (parseInt(data.father) + parseInt(data.mother) + 13) / 2;
+<a href="insights.html">View Monthly Insights →</a>
 
-    document.getElementById("height").innerText =
-      data.height + " cm";
+<script>
+const p = JSON.parse(localStorage.profile);
+const m = JSON.parse(localStorage.metrics);
 
-    document.getElementById("genetic").innerText =
-      geneticMid.toFixed(1) + " cm";
+const midpoint = (p.father + p.mother + 13) / 2;
+const legRatio = ((p.height - m.sitting) / p.height) * 100;
 
-    document.getElementById("phase").innerText =
-      data.age < 16 ? "Active Growth Phase" : "Late Growth Phase";
-  </script>
-
+height.innerText = p.height + " cm";
+genetic.innerText = midpoint.toFixed(1) + " cm";
+phase.innerText = p.age < 16 ? "Active Growth Phase" : "Late Growth Phase";
+ratio.innerText = legRatio.toFixed(1) + "% leg proportion";
+</script>
 </body>
 </html>
