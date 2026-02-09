@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stature — Dashboard</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #0f1115;
+      color: #ffffff;
+      padding: 20px;
+    }
+
+    h2 {
+      margin-bottom: 10px;
+    }
+
+    .card {
+      background: #1a1d23;
+      border-radius: 14px;
+      padding: 16px;
+      margin-top: 16px;
+    }
+
+    .label {
+      opacity: 0.7;
+      font-size: 0.85rem;
+    }
+
+    .value {
+      font-size: 1.4rem;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Your Growth Snapshot</h2>
+
+  <div class="card">
+    <div class="label">Current Height</div>
+    <div class="value" id="height"></div>
+  </div>
+
+  <div class="card">
+    <div class="label">Estimated Genetic Midpoint</div>
+    <div class="value" id="genetic"></div>
+  </div>
+
+  <div class="card">
+    <div class="label">Growth Phase</div>
+    <div class="value" id="phase"></div>
+  </div>
+
+  <script>
+    const data = JSON.parse(localStorage.getItem("statureProfile"));
+
+    const geneticMid =
+      (parseInt(data.father) + parseInt(data.mother) + 13) / 2;
+
+    document.getElementById("height").innerText =
+      data.height + " cm";
+
+    document.getElementById("genetic").innerText =
+      geneticMid.toFixed(1) + " cm";
+
+    document.getElementById("phase").innerText =
+      data.age < 16 ? "Active Growth Phase" : "Late Growth Phase";
+  </script>
+
+</body>
+</html>
