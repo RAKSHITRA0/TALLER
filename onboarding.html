@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stature — Profile Setup</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #0f1115;
+      color: #fff;
+      padding: 20px;
+    }
+
+    h2 {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      margin-top: 16px;
+      opacity: 0.8;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      background: #1a1d23;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 1rem;
+    }
+
+    button {
+      margin-top: 28px;
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      background: #6cff8d;
+      color: #0f1115;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Your Growth Profile</h2>
+
+  <label>Age (years)</label>
+  <input type="number" id="age">
+
+  <label>Current Height (cm)</label>
+  <input type="number" id="height">
+
+  <label>Father's Height (cm)</label>
+  <input type="number" id="fatherHeight">
+
+  <label>Mother's Height (cm)</label>
+  <input type="number" id="motherHeight">
+
+  <button onclick="saveData()">Continue</button>
+
+  <script>
+    function saveData() {
+      const data = {
+        age: document.getElementById("age").value,
+        height: document.getElementById("height").value,
+        father: document.getElementById("fatherHeight").value,
+        mother: document.getElementById("motherHeight").value
+      };
+
+      localStorage.setItem("statureProfile", JSON.stringify(data));
+      window.location.href = "dashboard.html";
+    }
+  </script>
+
+</body>
+</html>
